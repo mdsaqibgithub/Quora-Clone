@@ -31,8 +31,6 @@ static/
 .DS_Store
 Thumbs.db
 
-# Pip
-requirements.txt
 
 # Jupyter
 .ipynb_checkpoints/
