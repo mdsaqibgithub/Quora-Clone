@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="container">
+        <h2>Create Your Account</h2>
+        {% if form.errors %}
+            <div class="error">
+                Please correct the errors below.
+            </div>
+        {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+            
+            <!-- Username Field -->
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Username</label>
+                <input type="text" 
+                       name="{{ form.username.name }}" 
+                       id="{{ form.username.id_for_label }}" 
+                       class="form-control"
+                       placeholder="Enter your username"
+                       value="{{ form.username.value|default_if_none:'' }}">
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Email Field - Now matches others -->
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email Address</label>
+                <input type="email" 
+                       name="{{ form.email.name }}" 
+                       id="{{ form.email.id_for_label }}" 
+                       class="form-control"
+                       placeholder="your@email.com"
+                       value="{{ form.email.value|default_if_none:'' }}">
+                {% if form.email.errors %}
+                    <div class="error">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Password</label>
+                <input type="password" 
+                       name="{{ form.password.name }}" 
+                       id="{{ form.password.id_for_label }}" 
+                       class="form-control"
+                       placeholder="Create a password">
+                {% if form.password.errors %}
+                    <div class="error">{{ form.password.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn btn-secondary">Sign Up</button>
+        </form>
+        <div class="auth-toggle">
+            Already have an account? <a href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Consistent form control styling */
+    .form-control {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        box-sizing: border-box;
+        transition: border 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #4285f4;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+    
+    /* Label styling */
+    .form-group label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 4px;
+    }
+    
+    /* Placeholder styling */
+    .form-control::placeholder {
+        color: #999;
+    }
+</style>
+{% endblock %}

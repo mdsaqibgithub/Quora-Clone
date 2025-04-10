@@ -1,0 +1,31 @@
+<!-- Home Template (All Questions) -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>All Questions</h2>
+        {% if user.is_authenticated %}
+            <a href="{% url 'create_question' %}" class="btn">Ask Question</a>
+        {% endif %}
+    </div>
+    
+    {% if not user.is_authenticated %}
+        <div style="background-color: #e7f3fe; padding: 15px; border-radius: var(--border-radius); margin-bottom: 20px;">
+            <a href="{% url 'login' %}" class="btn btn-outline">Login</a> to ask or answer questions.
+        </div>
+    {% endif %}
+
+    <ul class="question-list">
+        {% for q in questions %}
+            <li class="question-item">
+                <a href="{% url 'question_detail' q.pk %}">{{ q.title }}</a>
+                <div class="meta">Posted by {{ q.user.username }} on {{ q.created_at|date:"M d, Y" }}</div>
+            </li>
+        {% empty %}
+            <li>No questions posted yet. Be the first to ask!</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+

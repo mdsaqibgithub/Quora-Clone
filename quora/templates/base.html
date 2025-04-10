@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quora Clone</title>
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --danger-color: #ea4335;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-radius: 4px;
+            --box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            background-color: #f5f5f5;
+        }
+        
+        header {
+            background-color: white;
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .auth-links a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: var(--dark-color);
+        }
+        
+        .auth-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--dark-color);
+            margin-top: 0;
+        }
+        
+        h2 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #3367d6;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #2d9249;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #d33426;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        form {
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        input[type="text"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+        }
+        
+        textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .question-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .question-item {
+            padding: 20px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .question-item a {
+            font-size: 18px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .question-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .meta {
+            color: #666;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .answer {
+            padding: 15px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+        
+        .like-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+        }
+        
+        .liked {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .error {
+            color: var(--danger-color);
+            background-color: #fdecea;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+        
+        .success {
+            color: var(--secondary-color);
+            background-color: #e6f4ea;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Base template structure -->
+    <header>
+        <nav>
+            <a href="{% url 'home' %}" class="logo">Quora Clone</a>
+            <div class="auth-links">
+                {% if user.is_authenticated %}
+                    <span>Welcome, {{ user.username }}</span>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'signup' %}">Sign Up</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        <!-- Content will be inserted here -->
+        {% endblock %}
+    </main>
+</body>
+</html>
